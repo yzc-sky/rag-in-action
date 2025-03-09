@@ -1,0 +1,69 @@
+{
+    "languages": null,
+    "filetype": "pdf",
+    "pdf_toc": [],
+    "pages": 5,
+    "ocr_stats": {
+        "ocr_pages": 5,
+        "ocr_failed": 0,
+        "ocr_success": 5,
+        "ocr_engine": "surya"
+    },
+    "block_stats": {
+        "header_footer": 15,
+        "code": 0,
+        "table": 2,
+        "equations": {
+            "successful_ocr": 0,
+            "unsuccessful_ocr": 0,
+            "equations": 0
+        }
+    },
+    "computed_toc": [
+        {
+            "title": "Yungang Grottoes",
+            "level": 1,
+            "page": 0
+        },
+        {
+            "title": "History",
+            "level": 2,
+            "page": 0
+        },
+        {
+            "title": "Yungang Grottoes",
+            "level": 4,
+            "page": 0
+        },
+        {
+            "title": "Deterioration and Conservation",
+            "level": 3,
+            "page": 1
+        },
+        {
+            "title": "Cave 6",
+            "level": 2,
+            "page": 2
+        },
+        {
+            "title": "Gallery\n\n![2_image_0.png](2_image_0.png)\n\n",
+            "level": 2,
+            "page": 2
+        },
+        {
+            "title": "References",
+            "level": 2,
+            "page": 3
+        },
+        {
+            "title": "Further reading",
+            "level": 2,
+            "page": 4
+        },
+        {
+            "title": "External links",
+            "level": 2,
+            "page": 4
+        }
+    ]
+}

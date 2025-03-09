@@ -1,0 +1,1 @@
+![基于DeepSeek的RAG系统研发实战课程架构图](./pic/RAG.PNG)
