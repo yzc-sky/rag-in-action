@@ -5,10 +5,10 @@ from dotenv import load_dotenv
 # 加载环境变量
 load_dotenv()
 
-from langchain_community.document_loaders import WebBaseLoader
+from langchain_community.document_loaders import WebBaseLoader # pip install langchain-community
 
 loader = WebBaseLoader(
-    web_paths=("https://zh.wikipedia.org/wiki/%E9%BB%91%E7%A5%9E%E8%AF%9D%EF%BC%9A%E6%82%9F%E7%A9%BA",)
+    web_paths=("https://zh.wikipedia.org/wiki/黑神话：悟空",)
 )
 docs = loader.load()
 
@@ -19,7 +19,7 @@ text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=20
 all_splits = text_splitter.split_documents(docs)
 
 # 3. 设置嵌入模型
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings # pip install langchain-huggingface
 
 embeddings = HuggingFaceEmbeddings(
     model_name="BAAI/bge-small-zh-v1.5",
@@ -52,7 +52,7 @@ prompt = ChatPromptTemplate.from_template("""
                                           )
 
 # 8. 使用大语言模型生成答案
-from langchain_deepseek import ChatDeepSeek
+from langchain_deepseek import ChatDeepSeek # pip install langchain-deepseek
 
 llm = ChatDeepSeek(
     model="deepseek-chat",  # DeepSeek API 支持的模型名称

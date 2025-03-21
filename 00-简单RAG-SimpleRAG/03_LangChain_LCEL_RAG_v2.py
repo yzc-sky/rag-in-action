@@ -2,7 +2,7 @@
 from langchain_community.document_loaders import WebBaseLoader
 
 loader = WebBaseLoader(
-    web_paths=("https://zh.wikipedia.org/wiki/%E9%BB%91%E7%A5%9E%E8%AF%9D%EF%BC%9A%E6%82%9F%E7%A9%BA",)
+    web_paths=("https://zh.wikipedia.org/wiki/黑神话：悟空",)
 )
 docs = loader.load()
 

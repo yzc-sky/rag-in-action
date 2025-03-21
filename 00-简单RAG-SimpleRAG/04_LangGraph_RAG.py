@@ -1,7 +1,7 @@
 # 1. 加载文档
 from langchain_community.document_loaders import WebBaseLoader
 loader = WebBaseLoader(
-    web_paths=("https://zh.wikipedia.org/wiki/%E9%BB%91%E7%A5%9E%E8%AF%9D%EF%BC%9A%E6%82%9F%E7%A9%BA",)
+    web_paths=("https://zh.wikipedia.org/wiki/黑神话：悟空",)
 )
 docs = loader.load()
 
@@ -51,7 +51,7 @@ def generate(state: State):
     return {"answer": response.content}
 
 # 9. 构建和编译应用
-from langgraph.graph import START, StateGraph
+from langgraph.graph import START, StateGraph # pip install langgraph
 graph = (
     StateGraph(State)
     .add_sequence([retrieve, generate])

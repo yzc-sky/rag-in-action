@@ -24,7 +24,7 @@ doc_embeddings = model.encode(docs)
 print(f"文档向量维度: {doc_embeddings.shape}")
 
 # 3. 创建向量存储
-import faiss
+import faiss # pip install faiss-cpu
 import numpy as np
 dimension = doc_embeddings.shape[1]
 index = faiss.IndexFlatL2(dimension)

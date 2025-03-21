@@ -1,7 +1,7 @@
 # 1. 加载文档
 from langchain_community.document_loaders import WebBaseLoader
 loader = WebBaseLoader(
-    web_paths=("https://zh.wikipedia.org/wiki/%E9%BB%91%E7%A5%9E%E8%AF%9D%EF%BC%9A%E6%82%9F%E7%A9%BA",)
+    web_paths=("https://zh.wikipedia.org/wiki/黑神话：悟空",)
 )
 docs = loader.load()
 
@@ -11,7 +11,7 @@ text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=20
 all_splits = text_splitter.split_documents(docs)
 
 # 3. 设置嵌入模型
-from langchain_openai import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings # pip install langchain-openai
 embeddings = OpenAIEmbeddings()
 
 # 4. 创建向量存储

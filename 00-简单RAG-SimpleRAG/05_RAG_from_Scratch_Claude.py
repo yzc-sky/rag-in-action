@@ -52,7 +52,7 @@ prompt = f"""根据以下参考信息回答问题，并给出信息源编号。
 答案:"""
 
 # 6. 使用Claude生成答案
-from anthropic import Anthropic
+from anthropic import Anthropic # pip install anthropic
 claude = Anthropic(api_key=os.getenv("CLAUDE_API_KEY"))
 response = claude.messages.create(
     model="claude-3-5-sonnet-20241022",

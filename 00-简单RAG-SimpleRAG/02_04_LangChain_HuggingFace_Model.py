@@ -1,8 +1,8 @@
 # 1. 加载文档
-from langchain_community.document_loaders import WebBaseLoader
+from langchain_community.document_loaders import WebBaseLoader # pip install beautifulsoup4
 
 loader = WebBaseLoader(
-    web_paths=("https://zh.wikipedia.org/wiki/%E9%BB%91%E7%A5%9E%E8%AF%9D%EF%BC%9A%E6%82%9F%E7%A9%BA",)
+    web_paths=("https://zh.wikipedia.org/wiki/黑神话：悟空",)
 )
 docs = loader.load()
 
@@ -53,7 +53,10 @@ import torch
 # 加载模型和分词器
 model_name = "Qwen/Qwen2.5-1.5B"
 tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
-model = AutoModelForCausalLM.from_pretrained(model_name, trust_remote_code=True, device_map='auto')
+model = AutoModelForCausalLM.from_pretrained(model_name, 
+                                             trust_remote_code=True, 
+                                            #  device_map='auto'
+                                             )
 
 # 创建pipeline
 pipe = pipeline(
