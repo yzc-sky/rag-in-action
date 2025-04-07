@@ -21,7 +21,7 @@ elements = partition_pdf(
 element_map = {element.id: element for element in elements if hasattr(element, 'id')}
 
 for element in elements:
-    if element.category == "Table":
+    if element.category == "Table": # 只打印表格数据    
         print("\n表格数据:")
         print("表格元数据:", vars(element.metadata))  # 使用vars()显示所有元数据属性
         print("表格内容:")
