@@ -2,6 +2,7 @@
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding # 需要pip install llama-index-embeddings-huggingface
 from llama_index.llms.deepseek import DeepSeek  # 需要pip install llama-index-llms-deepseek
+from llama_index.embeddings.openai import OpenAIEmbedding
 
 from llama_index.core import Settings # 可以看看有哪些Setting
 # https://docs.llamaindex.ai/en/stable/examples/llm/deepseek/
@@ -19,9 +20,19 @@ load_dotenv()
 
 # 创建 Deepseek LLM（通过API调用最新的DeepSeek大模型）
 llm = DeepSeek(
-    model="deepseek-reasoner", # 使用最新的推理模型R1
-    api_key=os.getenv("DEEPSEEK_API_KEY")  # 从环境变量获取API key
+    model="deepseek-r1", # 使用最新的推理模型R1
+    api_key=os.getenv("DEEPSEEK_API_KEY"),  # 从环境变量获取API key
+    api_base=os.getenv("DEEPSEEK_API_BASE")
 )
+
+# 配置嵌入模型
+embed_model = OpenAIEmbedding(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    base_url=os.getenv("OPENAI_API_BASE")
+)
+
+# 设置全局配置
+Settings.embed_model = embed_model
 
 # 加载数据
 documents = SimpleDirectoryReader(input_files=["90-文档-Data/黑悟空/设定.txt"]).load_data() 
