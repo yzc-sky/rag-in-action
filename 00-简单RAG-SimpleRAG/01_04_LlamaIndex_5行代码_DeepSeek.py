@@ -9,12 +9,16 @@ import os
 load_dotenv()
 
 # 加载本地嵌入模型
-embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-zh")
+embed_model = HuggingFaceEmbedding(
+    model_name="BAAI/bge-small-zh",
+    cache_folder="E:\Documents\huggingface_cache"
+    )
 
 # 创建 Deepseek LLM
 llm = DeepSeek(
-    model="deepseek-chat",
-    api_key=os.getenv("DEEPSEEK_API_KEY")
+    model="deepseek-r1",
+    api_key=os.getenv("DEEPSEEK_API_KEY"),
+    api_base=os.getenv("DEEPSEEK_API_BASE")
 )
 
 # 第二行代码：加载数据
