@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
+*.db
+*.pth
 .Python
 build/
 develop-eggs/
@@ -19,6 +21,8 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+*archive/*
 
 # Virtual Environment
 venv/
