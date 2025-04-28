@@ -2,7 +2,7 @@ from llama_index.core import  VectorStoreIndex, Settings, Document
 from llama_index.core.node_parser import  SentenceWindowNodeParser, SentenceSplitter
 from llama_index.llms.deepseek import DeepSeek
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from llama_index.core.postprocessor import MetadataReplacementPostProcessor
+from llama_index.core.postprocessor import MetadataReplacementPostProcessor # 元数据替换后处理器
 # 配置全局设置
 Settings.llm = DeepSeek(model="deepseek-chat", temperature=0.1)
 Settings.embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-zh")
@@ -24,9 +24,9 @@ game_knowledge = """
 同时游戏也提供了多种难度选择，照顾不同技术水平的玩家。"""
 # 创建Document对象
 documents = [Document(text=game_knowledge)]
-# 创建带上下文窗口的句子解析器（每个目标句子两侧各保留2个句子作为上下文）
+# 创建带上下文窗口的句子解析器（每个目标句子两侧各保留n个句子作为上下文）
 node_parser = SentenceWindowNodeParser.from_defaults(
-    window_size=4,
+    window_size=3,
     window_metadata_key="window",
     original_text_metadata_key="original_text"
 )
@@ -46,7 +46,7 @@ window_query_engine = sentence_index.as_query_engine(
 )
 # 创建基础查询引擎
 base_query_engine = base_index.as_query_engine(
-    similarity_top_k=2
+    similarity_top_k=6
 )
 # 测试问答
 test_questions = [

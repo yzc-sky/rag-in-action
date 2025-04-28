@@ -41,7 +41,7 @@ auto_engine = index.as_query_engine(
     node_postprocessors=[
         AutoPrevNextNodePostprocessor(
             docstore=docstore,
-            num_nodes=2,
+            num_nodes=3,
             verbose=True
         )
     ],
@@ -50,7 +50,7 @@ auto_engine = index.as_query_engine(
 # 测试不同类型的问题及不同的查询引擎
 test_questions = [
     "悟空从忘川寺获得记忆后发生了什么？",  # 应该找后文
-    "悟空是如何到达业火山的？",  # 应该找前后文
+    "悟空是如何到达业火山的？",  # 应该找前文
     "悟空为什么会在山洞中醒来？",  # 应该找前文
 ]
 print("=== 基础查询引擎的结果 ===")

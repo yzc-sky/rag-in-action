@@ -3,6 +3,8 @@ from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding # 需要pip install llama-index-embeddings-huggingface
 
 # 加载本地嵌入模型
+# import os
+# os.environ['HF_ENDPOINT']= 'https://hf-mirror.com' # 如果万一被屏蔽，可以设置镜像
 embed_model = HuggingFaceEmbedding(
     model_name="BAAI/bge-small-zh" # 模型路径和名称（首次执行时会从HuggingFace下载）
     )
