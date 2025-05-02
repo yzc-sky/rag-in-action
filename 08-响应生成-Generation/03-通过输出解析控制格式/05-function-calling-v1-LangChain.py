@@ -1,5 +1,4 @@
 from langchain_deepseek import ChatDeepSeek 
-from langchain.schema import HumanMessage, SystemMessage
 from pydantic import BaseModel, Field
 
 # 定义工具模式

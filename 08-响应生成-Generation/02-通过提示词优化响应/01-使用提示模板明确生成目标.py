@@ -7,7 +7,7 @@ from langchain_openai import OpenAI
 import os
 
 # 1. 加载文档
-loader = TextLoader("data/黑神话/黑神话悟空的设定.txt")
+loader = TextLoader("90-文档-Data/黑悟空/设定.txt")
 documents = loader.load()
 
 # 2. 分割文档
