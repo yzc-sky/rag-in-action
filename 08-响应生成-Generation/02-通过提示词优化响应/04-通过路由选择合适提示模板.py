@@ -69,11 +69,26 @@ case_database = {
 }
 
 # 创建路由函数
-def get_prompt_template(scenario):
-    if scenario in templates:
-        return PromptTemplate.from_template(templates[scenario])
+def get_prompt_template_by_question(question):
+    # 使用LLM进行意图识别
+    intent_prompt = f"""
+    请分析以下问题属于哪个场景类型:
+    问题: {question}
+    
+    可选场景:
+    - customer_service: 客户服务相关问题
+    - technical_support: 技术支持相关问题  
+    - business_analysis: 业务分析相关问题
+
+    只需返回对应的场景标识符,如 'customer_service'
+    """
+    
+    intent = llm.invoke(intent_prompt).strip()
+    
+    if intent in templates:
+        return PromptTemplate.from_template(templates[intent])
     else:
-        raise ValueError(f"未知的场景: {scenario}")
+        raise ValueError(f"未识别的场景类型: {question}, 识别结果: {intent}")
 
 # 获取相似案例
 def get_similar_cases(scenario, query, k=2):
@@ -105,7 +120,7 @@ for scenario in scenarios:
     print(f"输入问题: {query}")
     
     # 获取对应的提示模板
-    prompt_template = get_prompt_template(scenario)
+    prompt_template = get_prompt_template_by_question(query)
     print("\n选择的提示模板:")
     print(prompt_template.template)
     
@@ -114,17 +129,15 @@ for scenario in scenarios:
     print("\n检索到的相似案例:")
     print(similar_cases)
     
-    # 根据场景使用不同的参数名
-    params = {
-        "customer_service": {"customer_feedback": query},
-        "technical_support": {"issue_description": query},
-        "business_analysis": {"business_issue": query}
+    # 根据模板中的变量名设置参数
+    template_vars = {
+        "customer_feedback": query,
+        "issue_description": query,
+        "business_issue": query,
+        "similar_cases": similar_cases
     }
     
     # 生成回复
-    params[scenario]["similar_cases"] = similar_cases
-    response = llm.invoke(prompt_template.format(**params[scenario]))
+    response = llm.invoke(prompt_template.format(**template_vars))
     print("\n生成的回复:")
     print(response)
-
-

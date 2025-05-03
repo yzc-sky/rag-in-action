@@ -1,3 +1,23 @@
+"""
+使用Ollama本地运行大语言模型，无需OpenAI API密钥。
+
+1. 安装Ollama Server:
+   - Windows: 访问 https://ollama.com/download 下载安装包
+   - Linux/Mac: 运行 curl -fsSL https://ollama.com/install.sh | sh
+
+2. 下载并运行模型:
+   - 打开终端，运行以下命令下载模型:
+     ollama pull qwen:7b  # 下载通义千问7B模型
+     # 或
+     ollama pull llama2:7b  # 下载Llama2 7B模型
+     # 或
+     ollama pull mistral:7b  # 下载Mistral 7B模型
+
+3. 设置环境变量:
+   - 在.env文件中添加:
+     OLLAMA_MODEL=qwen:7b  # 或其他已下载的模型名称
+"""
+
 # 1. 加载文档
 import os
 from dotenv import load_dotenv

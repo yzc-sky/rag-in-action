@@ -59,7 +59,6 @@ llm = ChatOpenAI(
     temperature=0.7,        # 控制输出的随机性(0-1之间,越大越随机)
     max_tokens=2048,        # 最大输出长度
     top_p=0.95,            # 控制输出的多样性(0-1之间)
-    top_k=50,              # 控制每次选择的候选token数量
     presence_penalty=0.0,   # 重复惩罚系数(-2.0到2.0之间)
     frequency_penalty=0.0,  # 频率惩罚系数(-2.0到2.0之间)
     api_key=os.getenv("DEEPSEEK_API_KEY")  # 从环境变量加载API key

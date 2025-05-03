@@ -14,14 +14,14 @@ chain = (
 )
 summaries = chain.batch(docs, {"max_concurrency": 5})
 # 设置多向量检索器
-from langchain.storage import InMemoryByteStore
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma
-from langchain.retrievers.multi_vector import MultiVectorRetriever
-embed_model = HuggingFaceEmbeddings(model_name="BAAI/bge-small-zh")
-vectorstore = Chroma(collection_name="summaries", embedding_function= embed_model)
-store = InMemoryByteStore()
-id_key = "doc_id"
+from langchain.storage import InMemoryByteStore # 内存存储
+from langchain_huggingface import HuggingFaceEmbeddings # 向量模型
+from langchain_community.vectorstores import Chroma # 向量数据库
+from langchain.retrievers.multi_vector import MultiVectorRetriever # 多向量检索器
+embed_model = HuggingFaceEmbeddings(model_name="BAAI/bge-small-zh") # 向量模型
+vectorstore = Chroma(collection_name="summaries", embedding_function= embed_model) # 向量数据库
+store = InMemoryByteStore() # 内存存储
+id_key = "doc_id" # 文档ID
 retriever = MultiVectorRetriever(
     vectorstore=vectorstore,
     byte_store=store,
@@ -40,3 +40,5 @@ retriever.docstore.mset(list(zip(doc_ids, docs)))
 # 使用检索器进行查询
 query = "Memory in agents"
 retrieved_docs = retriever.get_relevant_documents(query,n_results=1)
+
+print(retrieved_docs)

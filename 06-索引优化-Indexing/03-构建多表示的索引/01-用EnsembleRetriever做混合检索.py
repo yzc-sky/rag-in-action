@@ -18,9 +18,9 @@ lore_docs = [
     "游戏场景包括水墨画风格的山川和建筑"
 ]
 # 创建两种不同的检索器：BM25+向量检索器
-from langchain_community.retrievers import BM25Retriever
-from langchain_community.vectorstores import FAISS
-from langchain.retrievers import EnsembleRetriever
+from langchain_community.retrievers import BM25Retriever # BM25检索器
+from langchain_community.vectorstores import FAISS # 向量数据库，此时不是检索器
+from langchain.retrievers import EnsembleRetriever # 混合检索器
 # 创建BM25检索器
 bm25_retriever = BM25Retriever.from_texts(
     system_docs + lore_docs,
@@ -36,15 +36,15 @@ vectorstore = FAISS.from_texts(
     metadatas=[{"source": "system" if i < len(system_docs) else "lore"} 
                for i in range(len(system_docs) + len(lore_docs))]
 )
-faiss_retriever = vectorstore.as_retriever(search_kwargs={"k": 2})
+faiss_retriever = vectorstore.as_retriever(search_kwargs={"k": 2}) # 创建向量检索器，基于向量数据库
 # 创建混合检索器
 ensemble_retriever = EnsembleRetriever(
-    retrievers=[bm25_retriever, faiss_retriever],
-    weights=[0.5, 0.5]
+    retrievers=[bm25_retriever, faiss_retriever], # 混合检索器，包含两个检索器
+    weights=[0.5, 0.5] # 权重，用于平衡两个检索器的贡献 -> weightedreranker
 )
 # 创建使用混合检索器的问答链和使用单一检索器的问答链（用于对比）
 llm = ChatDeepSeek(model="deepseek-chat")
-# 创建混合检索问答链
+# 创建混合检索问答链 -> 有点像集成学习方法
 ensemble_qa = RetrievalQA.from_chain_type(
     llm=llm,
     retriever=ensemble_retriever,
