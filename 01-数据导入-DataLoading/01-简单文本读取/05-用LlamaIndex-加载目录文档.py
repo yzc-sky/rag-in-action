@@ -1,6 +1,6 @@
 from llama_index.core import SimpleDirectoryReader
 # 使用 SimpleDirectoryReader 加载目录中的文件
-dir_reader = SimpleDirectoryReader("data/黑神话")
+dir_reader = SimpleDirectoryReader("90-文档-Data/黑悟空")
 documents = dir_reader.load_data()
 # 查看加载的文档数量和内容
 print(f"文档数量: {len(documents)}")
