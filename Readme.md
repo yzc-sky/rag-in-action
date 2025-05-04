@@ -1,6 +1,8 @@
 # RAG (Retrieval-Augmented Generation) 系统研发实战
 
-本项目是一个基于 DeepSeek 的 RAG 系统实战课程的代码仓库，实现了一个完整的检索增强生成系统。
+本项目是一个基于 DeepSeek 的 RAG 系统[实战课程](https://u.geekbang.org/subject/airag/1009927)的代码仓库，实现了一个完整的检索增强生成系统。
+
+课程地址：[RAG系统研发实战](https://u.geekbang.org/subject/airag/1009927)
 
 ![基于DeepSeek的RAG系统研发实战课程架构图](92-图片-Pic/RAG.PNG)
 
