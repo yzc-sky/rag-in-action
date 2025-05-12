@@ -50,17 +50,17 @@ print("- 通过将答案分解为简单陈述，然后验证每个陈述是否�
 print("- 该指标仅依赖LLM，不需要embedding模型")
 
 # 评估Faithfulness
-faithfulness_metric = [Faithfulness(llm=llm)]
+faithfulness_metric = [Faithfulness(llm=llm)] # 只需要提供生成模型
 print("\n正在评估忠实度...")
 faithfulness_result = evaluate(dataset, faithfulness_metric)
 scores = faithfulness_result['faithfulness']
 mean_score = np.mean(scores) if isinstance(scores, (list, np.ndarray)) else scores
 print(f"忠实度评分: {mean_score:.4f}")
 
-print("\n2. AnswerRelevancy（答案相关性）")
-print("- 评估生成的答案与问题的相关程度")
-print("- 使用embedding模型计算语义相似度")
-print("- 我们将比较开源embedding模型和OpenAI的embedding模型")
+# print("\n2. AnswerRelevancy（答案相关性）")
+# print("- 评估生成的答案与问题的相关程度")
+# print("- 使用embedding模型计算语义相似度")
+# print("- 我们将比较开源embedding模型和OpenAI的embedding模型")
 
 # 设置两种embedding模型
 opensource_embedding = LangchainEmbeddingsWrapper(

@@ -1,69 +1,81 @@
 import os
 import chromadb
 from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
-from openai import OpenAI
+from openai import OpenAI as OpenAIClient  # 避免与TruLens的OpenAI类名冲突
 from trulens.core import TruSession, Feedback, Select
-from trulens.apps.app import TruApp
-from trulens.providers.openai import OpenAI as TruOpenAI
+from trulens.apps.app import TruApp, instrument
+from trulens.providers.openai import OpenAI as TruLensOpenAI
+import numpy as np
 
-# ✅ API KEY 设置
-# os.environ["OPENAI_API_KEY"] = "sk-..."  # 替换为你的 API Key
+# 设置API密钥
+# os.environ["OPENAI_API_KEY"] = "your_key_here"
 
-# ✅ 初始化向量库
-embedding_fn = OpenAIEmbeddingFunction(api_key=os.environ["OPENAI_API_KEY"])
-client = chromadb.Client()
-collection = client.get_or_create_collection("demo", embedding_function=embedding_fn)
+# 初始化嵌入函数
+embedding_function = OpenAIEmbeddingFunction(api_key=os.environ.get("OPENAI_API_KEY"),
+                                             model_name="text-embedding-ada-002")
+chroma_client = chromadb.Client()
+vector_store = chroma_client.get_or_create_collection("Info", embedding_function=embedding_function)
 
-# ✅ 添加知识文本
-collection.add(documents=["Starbucks 是美国第二波咖啡文化的代表。"], ids=["doc1"])
+# 添加示例数据
+vector_store.add("starbucks_info", documents=[
+    """
+    Starbucks Corporation is an American multinational chain of coffeehouses headquartered in Seattle, Washington.
+    As the world's largest coffeehouse chain, Starbucks is seen to be the main representation of the United States' second wave of coffee culture.
+    """
+])
 
-# ✅ 基础 RAG 类
-from trulens.apps import instrument
 class RAG:
-    @instrument
+    @instrument  # TruLens装饰器，用于跟踪函数调用
     def retrieve(self, query: str):
-        results = collection.query(query_texts=[query], n_results=2)
-        return [doc for sub in results["documents"] for doc in sub]
+        """检索相关文档"""
+        results = vector_store.query(query_texts=[query], n_results=2)
+        return results["documents"][0] if results["documents"] else []
 
     @instrument
     def generate_completion(self, query: str, context: list):
-        ctx = "\n".join(context)
-        prompt = f"上下文：\n{ctx}\n\n请回答：{query}"
-        client = OpenAI()
-        response = client.chat.completions.create(
+        """生成回答"""
+        oai_client = OpenAIClient(api_key=os.environ.get("OPENAI_API_KEY"))
+        context_str = "\n".join(context) if context else "No context available."
+        completion = oai_client.chat.completions.create(
             model="gpt-3.5-turbo",
-            temperature=0,
-            messages=[{"role": "user", "content": prompt}]
-        )
-        return response.choices[0].message.content
+            messages=[{"role": "user", "content": f"Context: {context_str}\nQuestion: {query}"}]
+        ).choices[0].message.content
+        return completion
 
     @instrument
     def query(self, query: str):
-        ctx = self.retrieve(query)
-        return self.generate_completion(query, ctx)
+        """完整的RAG查询流程"""
+        context = self.retrieve(query)
+        return self.generate_completion(query, context)
 
-rag = RAG()
-
-# ✅ 初始化 TruLens 会话
-session = TruSession()
+# 初始化TruLens会话
+session = TruSession(database_redact_keys=True)
 session.reset_database()
-provider = TruOpenAI(model_engine="gpt-4")
 
-# ✅ 定义反馈函数
-f_grounded = Feedback(provider.groundedness_measure_with_cot_reasons, name="Grounded") \
-    .on(Select.RecordCalls.retrieve.rets.collect()) \
-    .on_output()
+# 初始化TruLens的OpenAI提供者
+provider = TruLensOpenAI(model_engine="gpt-4")
 
-# ✅ 包装为 Tru 应用
-tru_app = TruApp(
-    app=rag,
-    app_name="MiniRAG",
-    feedbacks=[f_grounded]
+# 定义评估指标
+f_groundedness = Feedback(provider.groundedness_measure_with_cot_reasons, name="Groundedness") \
+    .on(Select.RecordCalls.retrieve.rets).on_output()
+f_answer_relevance = Feedback(provider.relevance_with_cot_reasons, name="Answer Relevance") \
+    .on_input().on_output()
+f_context_relevance = Feedback(provider.context_relevance_with_cot_reasons, name="Context Relevance") \
+    .on_input().on(Select.RecordCalls.retrieve.rets[:]).aggregate(np.mean)
+
+# 设置TruApp
+rag = RAG()
+tru_rag = TruApp(
+    rag,
+    app_name="RAG",
+    app_version="base",
+    feedbacks=[f_groundedness, f_answer_relevance, f_context_relevance]
 )
 
-# ✅ 开始记录
-with tru_app as recording:
-    print(rag.query("Starbucks 属于哪一波咖啡文化？"))
+# 执行查询并记录
+with tru_rag as recording:
+    response = rag.query("What wave of coffee culture is Starbucks seen to represent in the United States?")
+    print(f"Response: {response}")
 
-# ✅ 查看反馈结果
-session.get_leaderboard()
+# 查看评估结果
+print(session.get_leaderboard())
