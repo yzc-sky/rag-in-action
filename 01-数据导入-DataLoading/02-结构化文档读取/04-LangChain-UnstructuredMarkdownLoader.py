@@ -1,5 +1,4 @@
 from langchain_community.document_loaders import UnstructuredMarkdownLoader
-from langchain_core.documents import Document
 
 markdown_path = "data/黑神话/黑悟空版本介绍.md"
 loader = UnstructuredMarkdownLoader(markdown_path)

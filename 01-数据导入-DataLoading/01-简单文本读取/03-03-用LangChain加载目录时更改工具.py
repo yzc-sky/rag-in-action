@@ -1,6 +1,6 @@
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 # 加载目录下所有 Markdown 文件
-loader = DirectoryLoader("data/黑神话",
+loader = DirectoryLoader("./90-文档-Data/黑悟空",
                          glob="**/*.md",
                          loader_cls=TextLoader # 指定加载工具
                          )

@@ -1,5 +1,5 @@
 from langchain_community.document_loaders import DirectoryLoader
-loader = DirectoryLoader("./data/黑神话", 
+loader = DirectoryLoader("./90-文档-Data/黑悟空", 
                          glob="**/*.md", 
                          use_multithreading=True,
                          show_progress=True,
