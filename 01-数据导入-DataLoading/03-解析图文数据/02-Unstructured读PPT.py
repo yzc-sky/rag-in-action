@@ -9,7 +9,7 @@ from langchain_core.documents import Document
 # 转换为 Documents 数据结构
 documents = [
 Document(page_content=element.text, 
-  	     metadata={"source": "data/黑神话悟空PPT.pptx"})
+  	     metadata={"source": "90-文档-Data/黑悟空/黑神话悟空.pptx"})
     for element in ppt_elements
 ]
 
