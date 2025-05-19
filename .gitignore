@@ -30,7 +30,7 @@ env/
 ENV/
 .env
 .venv
-
+**/venv-rag-langchain*/
 # IDE
 .idea/
 .vscode/
@@ -72,5 +72,6 @@ data/
 **/data
 
 **/99-其它*/
-
-
+**/RAG_LangChain*/
+**/RAG_LlamaIndex*/
+**/04-向量存储-VectorDB/Milvus/volumes/*

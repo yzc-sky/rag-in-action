@@ -7,7 +7,7 @@ from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.core import Settings # 可以看看有哪些Setting
 # https://docs.llamaindex.ai/en/stable/examples/llm/deepseek/
 # Settings.llm = DeepSeek(model="deepseek-chat")
-# Settings.embed_model = HuggingFaceEmbedding(model="BAAI/bge-small-zh")
+Settings.embed_model = HuggingFaceEmbedding("BAAI/bge-small-zh")
 # Settings.llm = OpenAI(model="gpt-3.5-turbo")
 # Settings.embed_model = OpenAIEmbedding(model="text-embedding-3-small")
 

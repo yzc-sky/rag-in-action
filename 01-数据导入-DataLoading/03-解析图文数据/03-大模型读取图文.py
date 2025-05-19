@@ -11,7 +11,7 @@ output_dir = "temp_images"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
-images = convert_from_path("data/黑神话/黑神话悟空.pdf")
+images = convert_from_path("90-文档-Data/黑悟空/黑神话悟空.pdf")
 image_paths = []
 for i, image in enumerate(images):
     image_path = os.path.join(output_dir, f'page_{i+1}.jpg')
