@@ -1,11 +1,16 @@
 # 安装依赖：pip install pymilvus
 # pip show pymilvus  # 查看当前 SDK 版本
 '''
-# 1. 首先停止当前的 Milvus 容器
-docker compose down
-# 2. 修改 docker-compose.yml 中的 Milvus 镜像版本为 2.5.4
-# 3. 重新启动服务
-docker compose up -d
+# 安装Milvus服务端
+
+wget https://github.com/milvus-io/milvus/releases/download/v2.5.10/milvus-standalone-docker-compose.yml -O docker-compose.yml
+
+sudo docker compose up -d
+
+Creating milvus-etcd  ... done
+Creating milvus-minio ... done
+Creating milvus-standalone ... done
+
 '''
 
 from pymilvus import MilvusClient, exceptions
