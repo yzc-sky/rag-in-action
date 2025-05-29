@@ -1,5 +1,5 @@
-file_path = ("90-文档-Data/山西文旅/云冈石窟-en.pdf")
 from langchain_unstructured import UnstructuredLoader
+file_path = ("90-文档-Data/山西文旅/云冈石窟-en.pdf")
 loader = UnstructuredLoader(
     file_path=file_path,
     strategy="hi_res",

@@ -4,7 +4,10 @@ import os
 from openai import OpenAI
 
 # 初始化 OpenAI 客户端
-client = OpenAI()
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    base_url=os.getenv("OPENAI_API_BASE")
+)
 output_dir = "temp_images"
 
 # 1. PDF 转图片
@@ -69,4 +72,3 @@ for doc in documents:
 for image_path in image_paths:
     os.remove(image_path)
 os.rmdir(output_dir)
-
